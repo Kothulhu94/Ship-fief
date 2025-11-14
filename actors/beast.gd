@@ -50,8 +50,8 @@ func _on_body_entered(body):
 
 		combat_log += "--- Combat Ends! ---\n" + combat_result_text
 
-		# Show the dialogue UI with the combat log
-		get_tree().root.get_node("World/GameUI").show_dialogue("Beast Encounter!", combat_log)
+		# Emit the combat ended signal with the combat log
+		GameEvents.combat_ended.emit(combat_log)
 
 		# For simplicity, the beast removes itself after the encounter
 		queue_free()

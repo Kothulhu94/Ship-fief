@@ -18,3 +18,4 @@ config/icon="res://icon.svg"
 [autoload]
 
 EconomyTicker="*res://map/economy_ticker.tscn"
+GameEvents="*res://game_events.gd"
