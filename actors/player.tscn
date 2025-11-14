@@ -17,3 +17,5 @@ shape = SubResource("RectangleShape2D_ydegs")
 # This is a placeholder. In a real project, you would assign a texture here.
 modulate = Color(0.388235, 0.8, 0.368627, 1)
 scale = Vector2(32, 32)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]

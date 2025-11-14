@@ -1,72 +1,49 @@
-[gd_scene load_steps=6 format=3 uid="uid://cghw7yyqj2x1f"]
+[gd_scene load_steps=7 format=3 uid="uid://cghw7yyqj2x1f"]
 
 [ext_resource type="PackedScene" uid="uid://b7lqvxo7x5q2v" path="res://actors/player.tscn" id="1_d1kgh"]
-[ext_resource type="Script" path="res://map/colony.gd" id="2_y0j1f"]
+[ext_resource type="PackedScene" uid="uid://d1e2f3g4h5i6j" path="res://ui/game_ui.tscn" id="2_abcde"]
+[ext_resource type="PackedScene" uid="uid://b1c2d3e4f5g6" path="res://actors/beast.tscn" id="3_fghij"]
+[ext_resource type="PackedScene" uid="uid://c1d2e3f4g5h6" path="res://actors/recruitable_crew.tscn" id="4_klmno"]
+[ext_resource type="PackedScene" uid="uid://b1c2d3e4f5g6h" path="res://map/colony.tscn" id="5_pqrst"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_abcde"]
-radius = 64.0
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_pqrst"]
+vertices = PackedVector2Array(0, 0, 1152, 0, 1152, 648, 0, 648)
+polygons = [PackedInt32Array(0, 1, 2, 3)]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_fghij"]
-radius = 64.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_klmno"]
-radius = 64.0
 
 [node name="World" type="Node2D"]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_pqrst")
+
 
 [node name="Player" parent="." instance=ExtResource("1_d1kgh")]
 position = Vector2(576, 324)
 
 [node name="Colonies" type="Node" parent="."]
 
-[node name="ScrapTown" type="Area2D" parent="Colonies"]
+[node name="ScrapTown" parent="Colonies" instance=ExtResource("5_pqrst")]
 position = Vector2(200, 200)
-script = ExtResource("2_y0j1f")
 colony_name = "Scrap-Town"
 production_good = "Parts"
-consumption_good = "Ore"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Colonies/ScrapTown"]
-shape = SubResource("CircleShape2D_abcde")
-
-[node name="Sprite2D" type="Sprite2D" parent="Colonies/ScrapTown"]
-modulate = Color(0.8, 0.4, 0.2, 1)
-scale = Vector2(64, 64)
-
-[node name="OasisSettlement" type="Area2D" parent="Colonies"]
+[node name="OasisSettlement" parent="Colonies" instance=ExtResource("5_pqrst")]
 position = Vector2(800, 500)
-script = ExtResource("2_y0j1f")
 colony_name = "Oasis Settlement"
 production_good = "Data"
-consumption_good = "Parts"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Colonies/OasisSettlement"]
-shape = SubResource("CircleShape2D_fghij")
-
-[node name="Sprite2D" type="Sprite2D" parent="Colonies/OasisSettlement"]
-modulate = Color(0.2, 0.8, 0.4, 1)
-scale = Vector2(64, 64)
-
-[node name="AbandonedResearchOutpost" type="Area2D" parent="Colonies"]
+[node name="AbandonedResearchOutpost" parent="Colonies" instance=ExtResource("5_pqrst")]
 position = Vector2(300, 800)
-script = ExtResource("2_y0j1f")
 colony_name = "Abandoned Research Outpost"
 production_good = "Ore"
-consumption_good = "Data"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Colonies/AbandonedResearchOutpost"]
-shape = SubResource("CircleShape2D_klmno")
 
-[node name="Sprite2D" type="Sprite2D" parent="Colonies/AbandonedResearchOutpost"]
-modulate = Color(0.5, 0.5, 0.8, 1)
-scale = Vector2(64, 64)
-
-[node name="GameUI" parent="." instance=ExtResource("uid://d1e2f3g4h5i6j")]
+[node name="GameUI" parent="." instance=ExtResource("2_abcde")]
 
 [node name="NPCs" type="Node" parent="."]
 
-[node name="Beast" parent="NPCs" instance=ExtResource("uid://b1c2d3e4f5g6")]
+[node name="Beast" parent="NPCs" instance=ExtResource("3_fghij")]
 position = Vector2(600, 700)
 
-[node name="RecruitableCrew" parent="NPCs" instance=ExtResource("uid://c1d2e3f4g5h6")]
+[node name="RecruitableCrew" parent="NPCs" instance=ExtResource("4_klmno")]
 position = Vector2(100, 500)
