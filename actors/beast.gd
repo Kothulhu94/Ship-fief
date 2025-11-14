@@ -1,57 +1,61 @@
 extends Area2D
 class_name Beast
 
-# --- Combat Stats ---
 @export var character_sheet: CharacterSheet
+@onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
+
+var target
 
 func _ready():
 	# Connect the body_entered signal to a function
 	body_entered.connect(_on_body_entered)
+	navigation_agent.target_reached.connect(_on_target_reached)
+
+func _physics_process(delta):
+	if target:
+		navigation_agent.target_position = target.global_position
+		if global_position.distance_to(target.global_position) < 50:
+			CombatManager.handle_combat(self, target)
+			target = null
+
+	if navigation_agent.is_navigation_finished():
+		velocity = Vector2.ZERO
+		return
+
+	var next_path_position = navigation_agent.get_next_path_position()
+	var direction = global_position.direction_to(next_path_position)
+	velocity = direction * character_sheet.move_speed
+	move_and_slide()
+
 
 func _on_body_entered(body):
-	# Check if the body that entered is the player
-	if body is Player and body.character_sheet and character_sheet:
-		# --- Run Combat Simulation ---
-		var player_hp = body.character_sheet.health
-		var beast_hp = character_sheet.health
-		var combat_log = "--- Combat Begins! ---\n"
+	if body is Player or body is Packer or body is RecruitableCrew:
+		target = body
 
-		while player_hp > 0 and beast_hp > 0:
-			# Player's turn
-			var player_attack_roll = randi_range(0, 50) + body.character_sheet.attack
-			var beast_defense_roll = randi_range(0, 50) + character_sheet.defense
-			if player_attack_roll > beast_defense_roll:
-				beast_hp -= 1
-				combat_log += "Player hits! Beast HP: " + str(beast_hp) + "\n"
-			else:
-				combat_log += "Player misses!\n"
+func _on_target_reached():
+	if target:
+		CombatManager.handle_combat(self, target)
+		target = null
 
-			if beast_hp <= 0:
-				break
+func die():
+	queue_free()
 
-			# Beast's turn
-			var beast_attack_roll = randi_range(0, 50) + character_sheet.attack
-			var player_defense_roll = randi_range(0, 50) + body.character_sheet.defense
-			if beast_attack_roll > player_defense_roll:
-				player_hp -= 1
-				combat_log += "Beast hits! Player HP: " + str(player_hp) + "\n"
-			else:
-				combat_log += "Beast misses!\n"
-
-		# --- Determine Winner & Rewards ---
-		var combat_result_text = ""
-		if player_hp > 0:
-			combat_result_text = "You won! You receive " + str(character_sheet.pacs) + " pacs."
-			body.character_sheet.pacs += character_sheet.pacs
+func _on_combat_ended(result):
+	if result["winner"] == character_sheet:
+		if result["loser"] is Player:
+			# Player lost, apply penalty
+			result["loser"].pacs = max(0, result["loser"].pacs - 20)
 		else:
-			var penalty = 20
-			combat_result_text = "You lost! You lost " + str(penalty) + " pacs."
-			body.character_sheet.pacs = max(0, body.character_sheet.pacs - penalty)
+			# Beast defeated a packer or crew, get a stat boost
+			var stat_boost = randi_range(1, 10)
+			var stat_to_boost = ["health", "attack", "defense"].pick_random()
+			character_sheet.set(stat_to_boost, character_sheet.get(stat_to_boost) + stat_boost)
+			print(character_sheet.name + " defeated " + result["loser"].name + " and got a " + str(stat_boost) + " boost to " + stat_to_boost + "!")
+	else:
+		if result["winner"] is Player:
+			# Player won, get rewards
+			var dropped_component = ComponentGenerator.generate_component()
+			result["winner"].add_to_inventory(dropped_component.component_name, 1)
+			result["winner"].pacs += character_sheet.pacs
 
-		combat_log += "--- Combat Ends! ---\n" + combat_result_text
-
-		# Show the dialogue UI with the combat log
-		get_tree().root.get_node("World/GameUI").show_dialogue("Beast Encounter!", combat_log)
-
-		# For simplicity, the beast removes itself after the encounter
-		queue_free()
+		die()

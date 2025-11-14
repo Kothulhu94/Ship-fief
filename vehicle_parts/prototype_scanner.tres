@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="VehicleComponent" load_steps=2 format=3 uid="uid://e1f2g3h4i5j6"]
-
-[ext_resource type="Script" path="res://vehicle_parts/component.gd" id="1_abcde"]
-
-[resource]
-script = ExtResource("1_abcde")
-component_name = "Prototype Scanner"
-description = "A basic sensor package."
-scanner_range_modifier = 50.0

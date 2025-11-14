@@ -11,31 +11,26 @@ class_name Player
 @export var main_weapon: Resource
 @export var auxiliary_system: Resource
 
-# Movement variables
-var target_position: Vector2 = Vector2.ZERO
+@onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 
 func _ready():
 	# Set the initial target position to the current position to prevent moving at the start
-	target_position = global_position
+	navigation_agent.target_position = global_position
 
 func _input(event):
 	# Check for a left mouse click to set a new target destination
 	if event.is_action_pressed("ui_accept") and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		target_position = get_global_mouse_position()
+		navigation_agent.target_position = get_global_mouse_position()
 
 func _physics_process(delta):
-	# Calculate the direction and distance to the target
-	var direction = global_position.direction_to(target_position)
-	var distance = global_position.distance_to(target_position)
-
-	# Only move if the distance is greater than a small threshold to prevent jittering
-	if distance > 5.0:
-		# Update velocity based on direction and speed
-		velocity = direction * _get_total_speed()
-		move_and_slide()
-	else:
-		# Stop the vehicle when it reaches the destination
+	if navigation_agent.is_navigation_finished():
 		velocity = Vector2.ZERO
+		return
+
+	var next_path_position = navigation_agent.get_next_path_position()
+	var direction = global_position.direction_to(next_path_position)
+	velocity = direction * _get_total_speed()
+	move_and_slide()
 
 # This function will calculate the final speed based on installed components
 func _get_total_speed() -> float:

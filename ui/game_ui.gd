@@ -13,6 +13,13 @@ func _ready():
 	hangar_panel.hide()
 	dialogue_panel.hide()
 
+	# Connect to the combat_ended signal from the global event bus
+	GameEvents.combat_ended.connect(_on_combat_ended)
+
+func _on_combat_ended(combat_log: String):
+	show_dialogue("Beast Encounter!", combat_log)
+
+
 # --- Public Functions to Control UI ---
 
 func show_marketplace(colony_data: Dictionary):
