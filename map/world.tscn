@@ -22,20 +22,35 @@ position = Vector2(576, 324)
 
 [node name="Colonies" type="Node" parent="."]
 
-[node name="ScrapTown" parent="Colonies" instance=ExtResource("5_pqrst")]
+[node name="TheApothecary" parent="Colonies" instance=ExtResource("5_pqrst")]
+position = Vector2(576, 324)
+colony_name = "The Apothecary"
+production_good = "Medicine"
+
+[node name="TheGreenhouse" parent="Colonies" instance=ExtResource("5_pqrst")]
 position = Vector2(200, 200)
-colony_name = "Scrap-Town"
-production_good = "Parts"
+colony_name = "The Greenhouse"
+production_good = "Food"
 
-[node name="OasisSettlement" parent="Colonies" instance=ExtResource("5_pqrst")]
-position = Vector2(800, 500)
-colony_name = "Oasis Settlement"
+[node name="TheFoundry" parent="Colonies" instance=ExtResource("5_pqrst")]
+position = Vector2(952, 200)
+colony_name = "The Foundry"
+production_good = "Alloys"
+
+[node name="TheLoom" parent="Colonies" instance=ExtResource("5_pqrst")]
+position = Vector2(200, 448)
+colony_name = "The Loom"
+production_good = "Textiles"
+
+[node name="TheRefinery" parent="Colonies" instance=ExtResource("5_pqrst")]
+position = Vector2(952, 448)
+colony_name = "The Refinery"
+production_good = "Fuel"
+
+[node name="TheArchive" parent="Colonies" instance=ExtResource("5_pqrst")]
+position = Vector2(576, 548)
+colony_name = "The Archive"
 production_good = "Data"
-
-[node name="AbandonedResearchOutpost" parent="Colonies" instance=ExtResource("5_pqrst")]
-position = Vector2(300, 800)
-colony_name = "Abandoned Research Outpost"
-production_good = "Ore"
 
 
 [node name="GameUI" parent="." instance=ExtResource("2_abcde")]

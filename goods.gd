@@ -1,3 +1,3 @@
 extends Node
 
-const TYPES = ["Ore", "Data", "Parts"]
+const TYPES = ["Food", "Alloys", "Textiles", "Medicine", "Fuel", "Data"]

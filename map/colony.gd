@@ -8,15 +8,18 @@ extends Area2D
 var ruined: bool = false
 
 # --- Economy ---
-@export var production_good: String = "Ore" # This is set for each colony instance
+@export var production_good: String = "Food" # This is set for each colony instance
 @export var production_rate: float = 2.0 # Units per tick
 @export var surplus_threshold: int = 100
 
 # Consumption rate for each good type
 @export var consumption_rates: Dictionary = {
-	"Ore": 0.5,
-	"Data": 0.5,
-	"Parts": 0.5
+	"Food": 0.5,
+	"Alloys": 0.5,
+	"Textiles": 0.5,
+	"Medicine": 0.5,
+	"Fuel": 0.5,
+	"Data": 0.5
 }
 
 # --- Inventory & Prices ---
