@@ -10,6 +10,7 @@ var ruined: bool = false
 # --- Economy ---
 @export var production_good: String = "Ore" # This is set for each colony instance
 @export var production_rate: float = 2.0 # Units per tick
+@export var surplus_threshold: int = 100
 
 # Consumption rate for each good type
 @export var consumption_rates: Dictionary = {
@@ -24,7 +25,7 @@ var prices: Dictionary = {}
 
 # --- Packer ---
 var packer_scene = preload("res://actors/packer.tscn")
-var packer
+var has_packer: bool = false
 
 func _ready():
 	add_to_group("colonies")
@@ -40,13 +41,17 @@ func _ready():
 	# Connect to the global economic ticker
 	EconomyTicker.economy_tick.connect(_on_economy_tick)
 
-	spawn_packer()
-
-func spawn_packer():
-	packer = packer_scene.instantiate()
+func spawn_packer(surplus_quantity: int):
+	has_packer = true
+	var packer = packer_scene.instantiate()
 	get_tree().root.add_child(packer)
 	packer.set_home_colony(self)
 	packer.character_sheet.name = colony_name + " Packer"
+
+	# Give the packer the surplus goods
+	inventory[production_good] -= surplus_quantity
+	packer.character_sheet.add_to_inventory(production_good, surplus_quantity)
+
 	packer.start_trading_route()
 
 func _on_economy_tick():
@@ -81,15 +86,18 @@ func _on_economy_tick():
 		# Price is high when supply is low, and low when supply is high
 		prices[good_type] = max(5, 50 - supply * 0.2)
 
+	# --- Packer Spawning ---
+	if not has_packer and inventory[production_good] >= surplus_threshold:
+		var surplus_to_sell = inventory[production_good] - (surplus_threshold / 2)
+		spawn_packer(surplus_to_sell)
+
 
 func _become_ruined():
 	ruined = true
 	colony_name += " (Ruined)"
 	# In a real game, you might change the appearance, disable interaction, etc.
 	print(colony_name + " has fallen into ruin!")
-	if is_instance_valid(packer):
-		packer.queue_free()
-
+	# We don't need to queue_free the packer, as it will de-spawn itself.
 
 func get_market_data() -> Dictionary:
 	return {
