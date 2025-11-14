@@ -41,7 +41,9 @@ func _on_body_entered(body):
 		# --- Determine Winner & Rewards ---
 		var combat_result_text = ""
 		if player_hp > 0:
-			combat_result_text = "You won! You receive " + str(character_sheet.pacs) + " pacs."
+			var dropped_component = ComponentGenerator.generate_component()
+			body.character_sheet.inventory.append(dropped_component)
+			combat_result_text = "You won! You receive " + str(character_sheet.pacs) + " pacs and found a " + dropped_component.component_name + "!"
 			body.character_sheet.pacs += character_sheet.pacs
 		else:
 			var penalty = 20
