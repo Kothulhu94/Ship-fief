@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="VehicleComponent" load_steps=2 format=3 uid="uid://g1h2i3j4k5l6"]
+
+[ext_resource type="Script" path="res://vehicle_parts/component.gd" id="1_abcde"]
+
+[resource]
+script = ExtResource("1_abcde")
+component_name = "Prototype Auxiliary System"
+description = "Provides a small boost to energy efficiency."
+energy_cost_modifier = -0.1

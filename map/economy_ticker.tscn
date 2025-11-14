@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1e2f3g4h5i6k"]
+
+[ext_resource type="Script" path="res://map/economy_ticker.gd" id="1_xcyv6"]
+
+[node name="EconomyTicker" type="Node"]
+script = ExtResource("1_xcyv6")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true

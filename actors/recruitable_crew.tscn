@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1d2e3f4g5h6"]
+
+[ext_resource type="Script" path="res://actors/recruitable_crew.gd" id="1_xcyv6"]
+[ext_resource type="Resource" uid="uid://c1d2e3f4g5h6c" path="res://actors/resources/crew_sheet.tres" id="2_abcde"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ydegs"]
+size = Vector2(24, 24)
+
+[node name="RecruitableCrew" type="CharacterBody2D"]
+script = ExtResource("1_xcyv6")
+character_sheet = ExtResource("2_abcde")
+collision_layer = 4
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ydegs")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.2, 0.4, 0.8, 1)
+scale = Vector2(24, 24)
