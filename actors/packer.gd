@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Packer
 
 @export var character_sheet: CharacterSheet
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
