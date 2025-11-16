@@ -10,7 +10,7 @@ var target_beast
 func _ready():
 	navigation_agent.path_desired_distance = 4.0
 	navigation_agent.target_desired_distance = 4.0
-	navigation_agent.set_collision_mask(1)
+	navigation_agent.avoidance_mask = 1
 	navigation_agent.connect("target_reached", Callable(self, "_on_target_reached"))
 
 	# Start the wandering behavior

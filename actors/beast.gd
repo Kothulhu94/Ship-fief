@@ -19,13 +19,11 @@ func _physics_process(delta):
 			target = null
 
 	if navigation_agent.is_navigation_finished():
-		velocity = Vector2.ZERO
 		return
 
 	var next_path_position = navigation_agent.get_next_path_position()
 	var direction = global_position.direction_to(next_path_position)
-	velocity = direction * character_sheet.move_speed
-	move_and_slide()
+	global_position += direction * character_sheet.move_speed * delta
 
 
 func _on_body_entered(body):
