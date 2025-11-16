@@ -48,7 +48,7 @@ func _on_combat_ended(result):
 			var stat_boost = randi_range(1, 10)
 			var stat_to_boost = ["health", "attack", "defense"].pick_random()
 			character_sheet.set(stat_to_boost, character_sheet.get(stat_to_boost) + stat_boost)
-			print(character_sheet.name + " defeated " + result["loser"].name + " and got a " + str(stat_boost) + " boost to " + stat_to_boost + "!")
+			print(character_sheet.character_name + " defeated " + result["loser"].character_name + " and got a " + str(stat_boost) + " boost to " + stat_to_boost + "!")
 	else:
 		if result["winner"] is Player:
 			# Player won, get rewards

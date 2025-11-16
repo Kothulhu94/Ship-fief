@@ -8,18 +8,24 @@ func handle_combat(actor1, actor2):
 	var actor2_hp = actor2_sheet.health
 
 	var combat_log = "--- Combat Begins! ---\n"
-	combat_log += actor1_sheet.name + " vs. " + actor2_sheet.name + "\n"
+	combat_log += actor1_sheet.character_name + " vs. " + actor2_sheet.character_name + "\n"
 
 	while actor1_hp > 0 and actor2_hp > 0:
 		# Actor 1's turn
-		if _perform_attack(actor1_sheet, actor2_sheet, actor1_hp, actor2_hp, combat_log):
+		if _perform_attack(actor1_sheet, actor2_sheet):
 			actor2_hp -= 1
+			combat_log += actor1_sheet.character_name + " hits! " + actor2_sheet.character_name + " HP: " + str(actor2_hp) + "\n"
+		else:
+			combat_log += actor1_sheet.character_name + " misses!\n"
 		if actor2_hp <= 0:
 			break
 
 		# Actor 2's turn
-		if _perform_attack(actor2_sheet, actor1_sheet, actor2_hp, actor1_hp, combat_log):
+		if _perform_attack(actor2_sheet, actor1_sheet):
 			actor1_hp -= 1
+			combat_log += actor2_sheet.character_name + " hits! " + actor1_sheet.character_name + " HP: " + str(actor1_hp) + "\n"
+		else:
+			combat_log += actor2_sheet.character_name + " misses!\n"
 		if actor1_hp <= 0:
 			break
 
@@ -27,23 +33,21 @@ func handle_combat(actor1, actor2):
 	var loser = actor2_sheet if actor1_hp > 0 else actor1_sheet
 
 	combat_log += "--- Combat Ends! ---\n"
-	combat_log += winner.name + " is victorious!\n"
+	combat_log += winner.character_name + " is victorious!\n"
 
-	GameEvents.combat_ended.emit(combat_log)
+	print(combat_log)
 
-	return {
+	var result = {
 		"winner": winner,
 		"loser": loser
 	}
+	GameEvents.combat_ended.emit(result)
+
+	return result
 
 
-func _perform_attack(attacker_sheet, defender_sheet, attacker_hp, defender_hp, combat_log):
+func _perform_attack(attacker_sheet, defender_sheet):
 	var attack_roll = randi_range(0, 50) + attacker_sheet.attack
 	var defense_roll = randi_range(0, 50) + defender_sheet.defense
 
-	if attack_roll > defense_roll:
-		combat_log += attacker_sheet.name + " hits! " + defender_sheet.name + " HP: " + str(defender_hp - 1) + "\n"
-		return true
-	else:
-		combat_log += attacker_sheet.name + " misses!\n"
-		return false
+	return attack_roll > defense_roll

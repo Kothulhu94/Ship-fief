@@ -10,7 +10,7 @@ func _ready():
 	# Set the initial target to a random point within the wander radius
 	_set_new_wander_target()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	# Move towards the target
 	var direction = global_position.direction_to(current_target)
 	velocity = direction * speed

@@ -1,7 +1,7 @@
 extends Resource
 class_name CharacterSheet
 
-@export var name: String = "Actor"
+@export var character_name: String = "Actor"
 @export var health: int = 10
 @export var attack: int = 5
 @export var defense: int = 5

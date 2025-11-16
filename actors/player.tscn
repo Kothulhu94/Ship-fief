@@ -19,3 +19,6 @@ modulate = Color(0.388235, 0.8, 0.368627, 1)
 scale = Vector2(32, 32)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true

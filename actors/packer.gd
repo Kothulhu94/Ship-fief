@@ -20,7 +20,7 @@ func set_home_colony(colony):
 	home_colony = colony
 	global_position = home_colony.global_position
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if navigation_agent.is_navigation_finished():
 		velocity = Vector2.ZERO
 		return
@@ -89,7 +89,7 @@ func perform_buying():
 	if needed_good:
 		var price = target_colony.prices[needed_good]
 		if price <= character_sheet.pacs:
-			var quantity_to_buy = min(target_colony.inventory[needed_good], floor(character_sheet.pacs / price))
+			var quantity_to_buy = min(target_colony.inventory[needed_good], floor(character_sheet.pacs / float(price)))
 			quantity_to_buy = min(quantity_to_buy, character_sheet.stack_size - character_sheet.get_item_quantity(needed_good))
 
 			if quantity_to_buy > 0:

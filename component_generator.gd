@@ -97,11 +97,13 @@ func _generate_name_and_description(component: GeneratedComponent, component_typ
 
 	component.description = description_text
 
-	var name = component_type
+	var component_name_var = component_type
 	if highest_positive_stat:
-		name += " of " + STAT_NAMES[highest_positive_stat]
+		component_name_var += " of " + STAT_NAMES[highest_positive_stat]
 
 	if highest_negative > highest_positive:
-		name = "Janky " + name
+		component_name_var = "Janky " + component_name_var
+	elif highest_negative_stat:
+		component_name_var += " with a " + STAT_NAMES[highest_negative_stat] + " flaw"
 
-	component.component_name = name
+	component.component_name = component_name_var

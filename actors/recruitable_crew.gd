@@ -16,7 +16,7 @@ func _ready():
 	# Start the wandering behavior
 	_find_new_wander_target()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if target_beast:
 		navigation_agent.target_position = target_beast.global_position
 		if global_position.distance_to(target_beast.global_position) < 50:
@@ -70,7 +70,7 @@ func _on_combat_ended(result):
 		var stat_boost = randi_range(1, 10)
 		var stat_to_boost = ["health", "attack", "defense"].pick_random()
 		character_sheet.set(stat_to_boost, character_sheet.get(stat_to_boost) + stat_boost)
-		print(character_sheet.name + " defeated " + result["loser"].name + " and got a " + str(stat_boost) + " boost to " + stat_to_boost + "!")
+		print(character_sheet.character_name + " defeated " + result["loser"].character_name + " and got a " + str(stat_boost) + " boost to " + stat_to_boost + "!")
 
 		# Find a new wander target after a fight
 		_find_new_wander_target()

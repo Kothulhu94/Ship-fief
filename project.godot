@@ -21,3 +21,13 @@ GameEvents="*res://game_events.gd"
 ComponentGenerator="*res://component_generator.gd"
 Goods="*res://goods.gd"
 CombatManager="*res://combat_manager.gd"
+
+[input]
+
+move=[
+{
+"device": 0,
+"event": &"InputEventMouseButton",
+"button_index": 1
+}
+]
