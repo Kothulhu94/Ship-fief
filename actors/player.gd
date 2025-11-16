@@ -19,7 +19,7 @@ func _ready():
 
 func _input(event):
 	# Check for a left mouse click to set a new target destination
-	if event.is_action_pressed("ui_accept") and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+	if event.is_action_pressed("move"):
 		navigation_agent.target_position = get_global_mouse_position()
 
 func _physics_process(delta):

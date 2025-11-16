@@ -49,7 +49,7 @@ func spawn_packer(surplus_quantity: int):
 	var packer = packer_scene.instantiate()
 	get_tree().root.add_child(packer)
 	packer.set_home_colony(self)
-	packer.character_sheet.name = colony_name + " Packer"
+	packer.character_sheet.character_name = colony_name + " Packer"
 
 	# Give the packer the surplus goods
 	inventory[production_good] -= surplus_quantity
@@ -91,7 +91,7 @@ func _on_economy_tick():
 
 	# --- Packer Spawning ---
 	if not has_packer and inventory[production_good] >= surplus_threshold:
-		var surplus_to_sell = inventory[production_good] - (surplus_threshold / 2)
+		var surplus_to_sell = inventory[production_good] - (surplus_threshold / 2.0)
 		spawn_packer(surplus_to_sell)
 
 
